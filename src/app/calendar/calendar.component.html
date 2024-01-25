@@ -1,13 +1,24 @@
-<div class="flex flex-column align-items-center">
-  <div class="m-3">
-    <p-calendar
-      [styleClass]="calendarClass"
-      class="max-w-full"
-      [(ngModel)]="date"
-      [inline]="true"
-      [showWeek]="true"
-    ></p-calendar>
-  </div>
+<div class="flex flex-column align-items-center p-5">
+  <h2>Wählen Sie einen Termin aus</h2>
+  <form
+    [formGroup]="dateAndTimeForm"
+    class="m-4 flex flex-column gap-5 align-items-center"
+  >
+    <div>
+      <p-calendar
+        formControlName="date"
+        [styleClass]="calendarClass"
+        class="max-w-full"
+        [(ngModel)]="date"
+        [inline]="true"
+        [showWeek]="true"
+      ></p-calendar>
+    </div>
 
-  <p-divider class="w-8"></p-divider>
+    <p-divider class="w-8"></p-divider>
+
+    <div *ngIf="date !== undefined">
+      <p-card header="{{ date | date: 'EEEE dd.MM.YYYY' }}"> </p-card>
+    </div>
+  </form>
 </div>

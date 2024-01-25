@@ -60,8 +60,8 @@ export class HeaderComponent implements OnInit {
         icon: 'pi pi-fw pi-calendar',
       },
       {
-        label: 'Quit',
-        icon: 'pi pi-fw pi-power-off',
+        label: 'Kontakt',
+        icon: 'pi pi-fw pi-send',
       },
     ];
   }

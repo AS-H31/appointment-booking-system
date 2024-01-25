@@ -1,1 +1,52 @@
-<p>login works!</p>
+<div class="flex flex-column align-items-center p-4">
+  <div
+    class="flex flex-column justify-content-center align-items-center min-w-max m-3"
+  >
+    <h2 class="m-0 max-w-min">GlasfaserBau</h2>
+    <p>Bitte melden Sie sich mit Ihre Email und Adresse an</p>
+  </div>
+  <div class="min-w-max w-5" id="login-card">
+    <p-card>
+      <form [formGroup]="loginForm" (submit)="login()">
+        <div class="flex flex-column align-items-center gap-5 p-3">
+          <span class="p-float-label">
+            <input pInputText id="email" formControlName="email" />
+            <label htmlFor="email">Email</label>
+          </span>
+          <span class="p-float-label">
+            <input pInputText id="phoneNr" formControlName="phoneNr" />
+            <label htmlFor="phoneNr">Telefonnummer</label>
+          </span>
+          <p-dropdown
+            class="
+            "
+            formControlName="city"
+            [options]="cities"
+            [(ngModel)]="selectedCity"
+            [virtualScroll]="true"
+            [virtualScrollItemSize]="1"
+            placeholder="Bitte Stadt auswählen"
+            (onChange)="loginForm.controls['street'].enable()"
+          ></p-dropdown>
+          <p-dropdown
+            formControlName="street"
+            [options]="streets"
+            [(ngModel)]="selectedStreet"
+            placeholder="Bitte Straße auswählen"
+            (onChange)="loginForm.controls['hausnr'].enable()"
+          ></p-dropdown>
+          <p-dropdown
+            formControlName="hausnr"
+            [options]="hausnrs"
+            [(ngModel)]="selectedHausnr"
+            placeholder="Bitte Hausnummer auswählen"
+          ></p-dropdown>
+          <p-button type="submit" [disabled]="!loginForm.valid"
+            >Einlogen</p-button
+          >
+          <!-- <p-button type="submit">Einlogen</p-button> -->
+        </div>
+      </form>
+    </p-card>
+  </div>
+</div>

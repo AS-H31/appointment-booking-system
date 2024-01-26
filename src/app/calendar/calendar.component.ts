@@ -30,6 +30,18 @@ export class CalendarComponent implements OnInit {
   protected calendarClass: string = 'hide';
   protected date: any;
 
+  protected timePeriods: string[] = [
+    '09:00 - 10:00',
+    '10:00 - 11:00',
+    '11:00 - 12:00',
+    '12:00 - 13:00',
+    '13:00 - 14:00',
+    '14:00 - 15:00',
+    '15:00 - 16:00',
+  ];
+
+  protected slots: string[] = ['Slot', 'Slot', 'Slot', 'Slot'];
+
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
@@ -42,4 +54,6 @@ export class CalendarComponent implements OnInit {
       console.log(value);
     });
   }
+
+  bookAppointment(): void {}
 }

@@ -2,7 +2,7 @@
   <h2>Wählen Sie einen Termin aus</h2>
   <form
     [formGroup]="dateAndTimeForm"
-    class="m-4 flex flex-column gap-5 align-items-center"
+    class="m-4 flex flex-column gap-5 align-items-center min-w-full"
   >
     <div>
       <p-calendar
@@ -15,10 +15,32 @@
       ></p-calendar>
     </div>
 
-    <p-divider class="w-8"></p-divider>
+    <p-divider class="w-10"></p-divider>
 
-    <div *ngIf="date !== undefined">
-      <p-card header="{{ date | date: 'EEEE dd.MM.YYYY' }}"> </p-card>
+    <div
+      *ngIf="date !== undefined"
+      class="w-12 flex flex-column align-items-center gap-3"
+    >
+      <p-card
+        header="{{ date | date: 'EEEE dd.MM.YYYY' }}"
+        class="w-10 max-w-max"
+      >
+        <div id="timeAndSlots" class="flex flex-column">
+          <div *ngFor="let timePeriod of timePeriods" class="grid">
+            <h4 class="col-4 m-0 mt-2">
+              {{ timePeriod }}
+            </h4>
+            <div id="timeSlots" class="col-8 flex flex-nowrap gap-3 min-w-max">
+              <p-button
+                *ngFor="let slot of slots"
+                [label]="slot"
+                [outlined]="true"
+              ></p-button>
+            </div>
+          </div>
+        </div>
+      </p-card>
+      <p-button (onClick)="bookAppointment()">Buchen</p-button>
     </div>
   </form>
 </div>

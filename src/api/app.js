@@ -1,14 +1,14 @@
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
-var cookieParser = require("cookie-parser");
+var cookieParser = require('cookie-parser');
 var logger = require("morgan");
 
-const config = require("./config");
+const config = require("./database/config");
 const mongoClient = require("mongodb").MongoClient;
 const cors = require("cors");
 
-var indexRouter = require("./routes/index");
+var indexRouter = require("./index");
 var usersRouter = require("./routes/users");
 
 mongoClient.connect(`mongodb://${config.dbHost}`, {

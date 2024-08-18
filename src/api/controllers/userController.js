@@ -58,27 +58,9 @@ const getUserAddresses = async (req, res) => {
   }
 };
 
-//    /api/login
-const loginUser = async (req, res) => {
-  const { name, email, phoneNumber, city, street, hnr, zip, authCode } = req.body;
-  // first need to check if code matches the code that is sent to the user
-  // if code matches then proceed to calendar
-  try {
-      const newUser = await pool.query(
-          'INSERT INTO user (name, email, phone_number) VALUES ($1, $2, $3) RETURNING *',
-          [name, email, phone_number]
-      );
-      res.json(newUser.rows[0]);
-  } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-  }
-};
-
 module.exports = {
     createUser,
     getUser,
     getAllUsers,
     getUserAddresses,
-    loginUser
 };

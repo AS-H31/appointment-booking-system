@@ -5,7 +5,9 @@
   "scripts": {
     "start-www": "node ./bin/www",
     "start": "node ./index.js",
-    "dev": "nodemon ./index.js"
+    "dev": "nodemon ./index.js",
+    "prettier-check": "npx prettier . --check",
+    "prettier": "npx prettier . --write"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -25,6 +27,7 @@
     "twilio": "^5.2.2"
   },
   "devDependencies": {
+    "prettier": "3.3.3",
     "sequelize-cli": "^6.6.2"
   }
 }

@@ -1,7 +1,7 @@
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
-var cookieParser = require('cookie-parser');
+var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
 const config = require("./database/config");
@@ -11,14 +11,16 @@ const cors = require("cors");
 var indexRouter = require("./index");
 var usersRouter = require("./routes/users");
 
-mongoClient.connect(`mongodb://${config.dbHost}`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then( client => {
-  const db = client.db(config.dbName);
-  const collection = client.collection(config.dbCollection);
-  app.locals[config.dbCollection] = collection;
-});
+mongoClient
+  .connect(`mongodb://${config.dbHost}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then((client) => {
+    const db = client.db(config.dbName);
+    const collection = client.collection(config.dbCollection);
+    app.locals[config.dbCollection] = collection;
+  });
 
 var app = express();
 
@@ -37,7 +39,7 @@ app.use((req, res, next) => {
   const collection = req.app.locals[config.dbCollection];
   req.collection = collection;
   next();
-})
+});
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);

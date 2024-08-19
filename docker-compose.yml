@@ -1,0 +1,39 @@
+version: "3"
+services:
+  postgres:
+    image: "postgres:latest"
+    environment:
+      - POSTGRES_PASSWORD=${PG_PASS}
+  nginx:
+    depends_on:
+      - api
+      - client
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - "3050:80"
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./src/api/
+    volumes:
+      #- /app/node_modules
+      - ./src/api:/app
+    environment:
+      - PGUSER=${PG_USER}
+      - PGHOST=${PG_HOST}
+      - PGDATABASE=${PG_DATABASE}
+      - PGPASSWORD=${PG_PASS}
+      - PGPORT=5432
+  client:
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./
+    volumes:
+      #- /app/node_modules
+      - ./:/app

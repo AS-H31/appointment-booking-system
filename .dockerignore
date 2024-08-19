@@ -1,0 +1,25 @@
+# Ignore node modules and logs
+node_modules
+npm-debug.log
+
+# Ignore local Angular development files
+.DS_Store
+.git
+.gitignore
+
+# Ignore Angular build output (if any)
+dist
+build
+
+# Ignore environment files (if any)
+.env
+
+# Ignore Docker-related files
+Dockerfile
+docker-compose.yml
+
+# Ignore IDE or editor files
+.vscode/
+.idea/
+
+.src/api/

@@ -44,4 +44,6 @@ Thumbs.db
 
 # db-config
 /psql
-src/api/.env
+.env
+
+/temp

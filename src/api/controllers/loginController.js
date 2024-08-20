@@ -36,12 +36,12 @@ async function validateSmsCode(userId, smsCode) {
 //    /api/login
 const createAdmin = async (req, res) => {
   console.log("login user");
-  const { name, surname, email, phone_number, confirmation_code } = req.body;
+  const { name, surname, email, phone_number, confirmationCode } = req.body;
 
   try {
     const result = await pool.query(
       'SELECT * FROM "user" WHERE name = $1 AND surname = $2 AND confirmation_code = $3',
-      [name, surname, confirmation_code],
+      [name, surname, confirmationCode],
     );
     if (result.rows.length === 0) {
       return res.status(404).json({ msg: "User not found" });
@@ -56,10 +56,10 @@ const createAdmin = async (req, res) => {
 };
 
 const loginAdmin = async (req, res) => {
-  const { name, confirmation_code } = req.body;
+  const { name, confirmationCode } = req.body;
 
   // Check if username and password is provided
-  if (!name || !confirmation_code) {
+  if (!name || !confirmationCode) {
     return res.status(400).json({
       message: "Username or Password not present",
     });
@@ -68,7 +68,7 @@ const loginAdmin = async (req, res) => {
   try {
     const user = await pool.query(
       'SELECT * FROM "user" WHERE name = $1 AND confirmation_code = $2',
-      [name, confirmation_code],
+      [name, confirmationCode],
     );
 
     if (!user) {
@@ -113,8 +113,8 @@ const loginAdmin = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  const { email, confirmation_code } = req.body;
-  if (!email || !confirmation_code)
+  const { email, confirmationCode } = req.body;
+  if (!email || !confirmationCode)
     return res.status(400).send("Email oder Bestätigungscode fehlt");
 
   try {
@@ -128,8 +128,8 @@ const loginUser = async (req, res) => {
 
     // Verify code from found user
     const confirmationCodeValid = await bcrypt.compare(
-      confirmation_code,
-      user.confirmation_code,
+      confirmationCode,
+      user.confirmationCode,
     );
     if (!confirmationCodeValid) {
       return res.status(404).json("Incorrect confirmation code");
@@ -161,6 +161,7 @@ const loginUser = async (req, res) => {
       // TODO: maybe send more?
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).send("Sign in error");
   }
 };

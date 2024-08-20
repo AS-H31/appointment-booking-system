@@ -10,6 +10,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -32,45 +33,65 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   protected loginForm: FormGroup = new FormGroup('');
 
-  protected selectedCity: string | undefined;
-  protected cities: string[] | undefined;
+  // protected selectedCity: string | undefined;
+  // protected cities: string[] | undefined;
 
-  protected selectedStreet: string | undefined = '';
-  protected streets: string[] | undefined;
+  // protected selectedStreet: string | undefined = '';
+  // protected streets: string[] | undefined;
 
-  protected selectedHausnr: string | undefined = '';
-  protected hausnrs: string[] | undefined;
+  // protected selectedHausnr: string | undefined = '';
+  // protected hausnrs: string[] | undefined;
 
-  protected isCitySelected: boolean = false;
-  protected isStreetSelected: boolean = false;
+  // protected isCitySelected: boolean = false;
+  // protected isStreetSelected: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private messageService: MessageService,
     private router: Router,
-  ) {
-    this.cities = ['Oberhaun', 'Unterhaun', 'Nebenhaun'];
-    this.streets = ['Bahnhofstr', 'Unterstr', 'Hochstr'];
-    this.hausnrs = ['15', '16', '18'];
-  }
+    private loginService: AuthService,
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
+      // name: ['', Validators.required],
+      // surname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phoneNr: ['', [Validators.required, Validators.minLength(12)]],
-      city: ['', Validators.required],
-      street: [
-        { value: '', disabled: !this.isCitySelected },
-        Validators.required,
-      ],
-      hausnr: [
-        { value: '', disabled: !this.isStreetSelected },
-        Validators.required,
-      ],
+      // phoneNr: ['', [Validators.required, Validators.minLength(12)]],
+      confirmationCode: ['', [Validators.required, Validators.minLength(4)]],
+      // city: ['', Validators.required],
+      // street: [
+      //   { value: '', disabled: !this.isCitySelected },
+      //   Validators.required,
+      // ],
+      // hausnr: [
+      //   { value: '', disabled: !this.isStreetSelected },
+      //   Validators.required,
+      // ],
     });
   }
 
   login(): void {
-    this.router.navigateByUrl('/calendar');
+    this.loginService
+      .loginUser(
+        this.loginForm.get('email')?.value,
+        this.loginForm.get('confirmationCode')?.value,
+      )
+      .subscribe({
+        next: (val) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Erfolg',
+            detail: 'Sie sind erfolgreich eingelogt',
+          });
+          this.router.navigateByUrl('/calendar');
+        },
+        error: (err) =>
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Error Message',
+            detail: 'Something went wrong',
+          }),
+      });
   }
 }

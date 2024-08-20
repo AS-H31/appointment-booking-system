@@ -4,15 +4,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const registerNewUser = async (req, res) => {
-  const {
-    userId,
-    name,
-    surname,
-    phone_number,
-    email,
-    confirmation_code,
-    role,
-  } = req.body;
+  const { userId, name, surname, phone_number, email, confirmationCode, role } =
+    req.body;
   // Check if the email exists
   const userExistsByEmail = await db.user.findOne({
     where: { email },
@@ -21,14 +14,14 @@ const registerNewUser = async (req, res) => {
     return res.status(409).send("Email is already associated with an account");
   }
   try {
-    const hashedConfirmationCode = await bcrypt.hash(confirmation_code, 10);
+    const hashedConfirmationCode = await bcrypt.hash(confirmationCode, 10);
     await db.user.create({
       name,
       surname,
       email,
       phone_number,
       userId,
-      confirmation_code: hashedConfirmationCode,
+      confirmationCode: hashedConfirmationCode,
       role,
     });
     return res.status(200).send("Registration successful");

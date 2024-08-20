@@ -10,6 +10,9 @@ import {
 import { CalendarModule } from 'primeng/calendar';
 import { DividerModule } from 'primeng/divider';
 import { CardModule } from 'primeng/card';
+import { MenubarModule } from 'primeng/menubar';
+import { MenuModule } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-calendar',
@@ -21,6 +24,8 @@ import { CardModule } from 'primeng/card';
     FormsModule,
     CardModule,
     DividerModule,
+    MenubarModule,
+    MenuModule,
   ],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
@@ -42,6 +47,8 @@ export class CalendarComponent implements OnInit {
 
   protected slots: string[] = ['Slot', 'Slot', 'Slot', 'Slot'];
 
+  items: MenuItem[] | undefined;
+
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
@@ -53,6 +60,55 @@ export class CalendarComponent implements OnInit {
     this.dateAndTimeForm.get('date')?.valueChanges.subscribe((value) => {
       console.log(value);
     });
+    this.items = [
+      {
+        label: 'File',
+        icon: 'pi pi-fw pi-file',
+        items: [
+          {
+            label: 'New',
+            icon: 'pi pi-fw pi-plus',
+          },
+          {
+            label: 'Delete',
+            icon: 'pi pi-fw pi-trash',
+          },
+          {
+            separator: true,
+          },
+          {
+            label: 'Export',
+            icon: 'pi pi-fw pi-external-link',
+          },
+        ],
+      },
+      {
+        label: 'Edit',
+        icon: 'pi pi-fw pi-pencil',
+      },
+      {
+        label: 'Users',
+        icon: 'pi pi-fw pi-user',
+        items: [
+          {
+            label: 'New',
+            icon: 'pi pi-fw pi-user-plus',
+          },
+          {
+            label: 'Delete',
+            icon: 'pi pi-fw pi-user-minus',
+          },
+        ],
+      },
+      {
+        label: 'Events',
+        icon: 'pi pi-fw pi-calendar',
+      },
+      {
+        label: 'Kontakt',
+        icon: 'pi pi-fw pi-send',
+      },
+    ];
   }
 
   bookAppointment(): void {}

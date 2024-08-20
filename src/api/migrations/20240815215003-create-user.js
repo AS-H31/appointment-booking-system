@@ -29,7 +29,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      confirmation_code: {
+      confirmationCode: {
         allowNull: false,
         type: Sequelize.STRING,
       },

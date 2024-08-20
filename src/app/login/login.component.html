@@ -2,8 +2,10 @@
   <div
     class="flex flex-column justify-content-center align-items-center min-w-max m-3"
   >
-    <h2 class="m-0 max-w-min">GlasfaserBau</h2>
-    <p>Bitte melden Sie sich mit Ihre Email und Adresse an</p>
+    <h2 class="m-0 max-w-min text-white">GlasfaserBau</h2>
+    <p class="text-white">
+      Bitte melden Sie sich mit Ihre Email und Adresse an
+    </p>
   </div>
   <div class="min-w-max w-5" id="login-card">
     <p-card>
@@ -14,10 +16,14 @@
             <label htmlFor="email">Email</label>
           </span>
           <span class="p-float-label">
-            <input pInputText id="phoneNr" formControlName="phoneNr" />
-            <label htmlFor="phoneNr">Telefonnummer</label>
+            <input
+              pInputText
+              id="confirmationCode"
+              formControlName="confirmationCode"
+            />
+            <label htmlFor="confirmationCode">Bestätigungscode</label>
           </span>
-          <p-dropdown
+          <!-- <p-dropdown
             class="
             "
             formControlName="city"
@@ -40,7 +46,7 @@
             [options]="hausnrs"
             [(ngModel)]="selectedHausnr"
             placeholder="Bitte Hausnummer auswählen"
-          ></p-dropdown>
+          ></p-dropdown> -->
           <p-button type="submit" [disabled]="!loginForm.valid"
             >Einlogen</p-button
           >

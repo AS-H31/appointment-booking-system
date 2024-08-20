@@ -9,10 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      appointmentId: {
-        allowNull: false,
-        type: Sequelize.UUID,
-      },
       appointment_date: {
         type: Sequelize.DATE,
       },

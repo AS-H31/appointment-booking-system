@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   appointment.init(
     {
-      appointmentId: DataTypes.UUID,
       appointment_date: DataTypes.DATE,
       appointment_time: DataTypes.TIME,
       addressId: DataTypes.INTEGER,

@@ -9,10 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      addressId: {
-        allowNull: false,
-        type: Sequelize.UUID,
-      },
       street: {
         allowNull: false,
         type: Sequelize.STRING,

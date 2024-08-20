@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const userRoutes = require("./routes/userRoutes");
 const loginRoutes = require("./routes/loginRoutes");
 const cookieParser = require("cookie-parser");
+const verifyJwt = require("./middleware/verfiyJWT");
 
 dotenv.config();
 const app = express();
@@ -26,5 +27,8 @@ app.listen(PORT, (err) => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-app.use("/api/users", userRoutes);
 app.use("/api", loginRoutes);
+
+app.use(verifyJwt); // ab hier brauchen die routen eine valide jwt token
+
+app.use("/api/users", userRoutes);

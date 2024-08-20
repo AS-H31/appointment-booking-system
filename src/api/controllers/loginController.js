@@ -34,7 +34,7 @@ async function validateSmsCode(userId, smsCode) {
 }
 
 //    /api/login
-const loginUser = async (req, res) => {
+const createAdmin = async (req, res) => {
   console.log("login user");
   const { name, surname, email, phone_number, confirmation_code } = req.body;
 
@@ -112,46 +112,13 @@ const loginAdmin = async (req, res) => {
   }
 };
 
-const signUpUser = async (req, res) => {
-  console.log("inside sign up");
-  try {
-    const {
-      userId,
-      name,
-      surname,
-      phone_number,
-      email,
-      confirmation_code,
-      role,
-    } = req.body;
-    // Check if the email exists
-    const userExistsByEmail = await db.user.findOne({
-      where: { email },
-    });
-    if (userExistsByEmail) {
-      return res
-        .status(400)
-        .send("Email is already associated with an account");
-    }
+const loginUser = async (req, res) => {
+  const { email, confirmation_code } = req.body;
+  if (!email || !confirmation_code)
+    return res.status(400).send("Email oder Bestätigungscode fehlt");
 
-    await db.user.create({
-      name,
-      surname,
-      email,
-      phone_number,
-      userId,
-      confirmation_code: await bcrypt.hash(confirmation_code, 15),
-      role,
-    });
-    return res.status(200).send("Registration successful");
-  } catch (err) {
-    return res.status(500).send("Error in registering user");
-  }
-};
-
-const signInUser = async (req, res) => {
   try {
-    const { email, confirmation_code } = req.body;
+    // search for user using email
     const user = await db.user.findOne({
       where: { email },
     });
@@ -159,7 +126,7 @@ const signInUser = async (req, res) => {
       return res.status(404).json("Email not found");
     }
 
-    // Verify password
+    // Verify code from found user
     const confirmationCodeValid = await bcrypt.compare(
       confirmation_code,
       user.confirmation_code,
@@ -169,14 +136,27 @@ const signInUser = async (req, res) => {
     }
 
     // Authenticate user with jwt
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_REFRESH_EXPIRATION,
-    });
+    const token = jwt.sign(
+      {
+        UserInfo: {
+          id: user.userId,
+          role: user.role,
+        },
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_REFRESH_EXPIRATION,
+      },
+    );
+
+    // const refreshToken = jwt.sign(
+    //   {id: user.userId},
+    //   process.env.JWT_REFRESH_TOKEN,
+    //   {expiresIn: process.env.JWT_REFRESH_TOKEN_EXPR}
+    // );
 
     res.status(200).send({
-      id: user.id,
-      name: user.name,
-      email: user.email,
+      user,
       accessToken: token,
       // TODO: maybe send more?
     });
@@ -185,6 +165,5 @@ const signInUser = async (req, res) => {
   }
 };
 module.exports = {
-  signInUser,
-  signUpUser,
+  loginUser,
 };

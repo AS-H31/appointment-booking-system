@@ -6,13 +6,22 @@ const userRoutes = require("./routes/userRoutes");
 const loginRoutes = require("./routes/loginRoutes");
 const cookieParser = require("cookie-parser");
 const verifyJwt = require("./middleware/verfiyJWT");
+const credentials = require("./middleware/credentials");
+const corsOptions = require("./config/corsOptions");
 
 dotenv.config();
 const app = express();
 
+// Handle options credentials check - before CORS!
+// and fetch cookies credentials requirement
+app.use(credentials);
+
+// Cross origin Resource Sharing
+app.use(cors(corsOptions));
+
 app.use(bodyParser.json());
+
 app.use(cookieParser());
-app.use(cors());
 
 app.get("/", (request, response) => {
   response.json({ info: "Node.js, Express, and Postgres API" });
